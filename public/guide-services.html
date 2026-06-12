@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bowfishing Guide Services — Bowfishing Association of America</title>
+  <meta name="description" content="Find a top-notch bowfishing guide near you, searchable by state across the country.">
+  <link rel="icon" type="image/png" href="images/favicon/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .states { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:.6rem; }
+    .state-chip {
+      display:flex; align-items:center; justify-content:center; text-align:center;
+      background:#fff; border:1px solid var(--gray-100); border-radius:var(--radius-sm);
+      padding:.7em .5em; font-weight:700; font-size:.92rem; color:var(--navy);
+      box-shadow:var(--shadow-sm); transition:transform .15s var(--ease), border-color .15s, color .15s;
+    }
+    .state-chip:hover { transform:translateY(-2px); border-color:var(--red); color:var(--red); }
+  </style>
+</head>
+<body data-page="guides">
+  <div id="site-header"></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> · Guide Services</div>
+      <h1>Bowfishing Guide Services</h1>
+      <p>Find a top-notch bowfishing guide — search by state and book your next night on the water.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="center" style="margin-bottom:2rem">
+        <span class="eyebrow">Find A Guide</span>
+        <h2>Browse guides by state</h2>
+        <div class="divider-bar" style="margin-inline:auto"></div>
+        <p class="lead">Pick your state to find listed bowfishing guides in your area.</p>
+      </div>
+      <div class="states" id="states"></div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="feature">
+        <div>
+          <span class="eyebrow">For Guides</span>
+          <h2>Run a guide service? Get listed.</h2>
+          <p>The BAA guide directory puts your business in front of bowfishers actively looking to book. Listing is a great way to reach new clients and support the sport's national community.</p>
+          <a class="btn btn--primary" href="contact.html">Apply to be listed</a>
+        </div>
+        <div class="feature__media">
+          <div class="center">
+            <svg viewBox="0 0 24 24" fill="#fff" style="width:72px;margin:0 auto 1rem"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+            <div style="letter-spacing:.1em;text-transform:uppercase;opacity:.85;font-size:.85rem">All 50 states</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="js/main.js"></script>
+  <script>
+    (function(){
+      var states = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"];
+      var el = document.getElementById("states");
+      if (el) el.innerHTML = states.map(function(s){ return '<a class="state-chip" href="contact.html?state='+encodeURIComponent(s)+'">'+s+'</a>'; }).join("");
+    })();
+  </script>
+</body>
+</html>

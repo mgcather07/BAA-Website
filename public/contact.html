@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Us — Bowfishing Association of America</title>
+  <meta name="description" content="Get in touch with the Bowfishing Association of America.">
+  <link rel="icon" type="image/png" href="images/favicon/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="about">
+  <div id="site-header"></div>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> · Contact Us</div>
+      <h1>Contact Us</h1>
+      <p>Questions about membership, tournaments, records, guides, or Red Zones? Send us a note and we'll respond as soon as possible.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <!-- CONFIG: replace data-endpoint with your Formspree form ID (https://formspree.io)
+           e.g. data-endpoint="https://formspree.io/f/abcdwxyz". Until then, the form
+           falls back to opening the visitor's email client to the address below. -->
+      <form class="form" id="contact-form"
+            data-endpoint="https://formspree.io/f/your-form-id"
+            data-fallback-email="info@bowfishingassociation.com">
+        <div class="grid grid--2" style="gap:1.1rem">
+          <div class="field">
+            <label for="name">Name *</label>
+            <input id="name" name="name" type="text" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel">
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Email *</label>
+          <input id="email" name="email" type="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="message">Message *</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <div>
+          <button class="btn btn--primary btn--lg" type="submit" id="contact-submit">Send Message</button>
+          <p class="form__note" id="contact-status" role="status" aria-live="polite" style="margin-top:.8rem"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container center">
+      <span class="eyebrow">Stay Connected</span>
+      <h2>Follow the BAA</h2>
+      <div class="divider-bar" style="margin-inline:auto"></div>
+      <p class="lead" style="margin-bottom:1.4rem">Pre-registration, event news, and announcements drop on social first.</p>
+      <div class="hero__cta" style="justify-content:center">
+        <a class="btn btn--navy" href="https://www.facebook.com/bowfishingassociation/" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn btn--outline" href="https://www.instagram.com/bowfishingassociationofamerica/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="js/main.js"></script>
+  <script>
+    (function(){
+      var form = document.getElementById("contact-form");
+      if (!form) return;
+      var status = document.getElementById("contact-status");
+      var btn = document.getElementById("contact-submit");
+
+      // Pre-fill subject context from ?membership= or ?state= query params.
+      var params = new URLSearchParams(location.search);
+      var msg = document.getElementById("message");
+      if (params.get("membership")) msg.value = "I'd like to sign up for the " + params.get("membership") + " membership.\n\n";
+      else if (params.get("state")) msg.value = "I'm looking for bowfishing guides in " + params.get("state") + ".\n\n";
+
+      form.addEventListener("submit", function(e){
+        var endpoint = form.getAttribute("data-endpoint") || "";
+        var configured = endpoint && endpoint.indexOf("your-form-id") === -1;
+
+        if (!configured) {
+          // No backend configured yet — fall back to the visitor's mail client.
+          e.preventDefault();
+          var to = form.getAttribute("data-fallback-email");
+          var subject = "Website inquiry from " + (form.name.value || "a visitor");
+          var body = "Name: " + form.name.value + "\nPhone: " + (form.phone.value || "-") +
+                     "\nEmail: " + form.email.value + "\n\n" + form.message.value;
+          window.location.href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) +
+                                 "&body=" + encodeURIComponent(body);
+          status.textContent = "Opening your email app… if nothing happens, email us at " + to + ".";
+          return;
+        }
+
+        // Formspree (or compatible) AJAX submit.
+        e.preventDefault();
+        btn.disabled = true; status.textContent = "Sending…";
+        fetch(endpoint, {
+          method: "POST",
+          headers: { "Accept": "application/json" },
+          body: new FormData(form)
+        }).then(function(r){
+          if (r.ok) { form.reset(); status.textContent = "Thanks! Your message has been sent — we'll be in touch soon."; }
+          else { status.textContent = "Something went wrong. Please email us directly at " + form.getAttribute("data-fallback-email") + "."; }
+        }).catch(function(){
+          status.textContent = "Network error. Please email us directly at " + form.getAttribute("data-fallback-email") + ".";
+        }).finally(function(){ btn.disabled = false; });
+      });
+    })();
+  </script>
+</body>
+</html>
