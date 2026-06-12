@@ -16,3 +16,11 @@ Thumbs.db
 # Env / secrets (none committed — keep it that way)
 .env
 .env.*
+
+# Migration: raw DB dumps and service-account keys must NEVER be committed
+migration/_input/
+migration/output/
+**/serviceAccountKey*.json
+*.sql
+*.sql.gz
+*.dump
